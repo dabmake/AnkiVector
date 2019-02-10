@@ -19,66 +19,74 @@
 
 import anki_vector
 
-from anki_vector.util import degrees, distance_mm, speed_mmps
+from anki_vector.util import degrees, distance_mm, speed_mmps, Position
+
 
 def main():
     args = anki_vector.util.parse_command_args()
- 
-    with anki_vector.Robot() as robot:
+    #anki_vector.nav_map.NavMapComponent.init_nav_map_feed(frequency=0.5)
+    with anki_vector.Robot(args.serial, show_3d_viewer=True) as robot:
+        robot.show_viewer=True
         robot.enable_camera_feed=True
-        #robot.init_camera_feed()
-        image = robot.camera.latest_image
-        image.show()
-        current_robot_pose = robot.pose
+        robot.viewer.show_video()
+        
+        robot.enable_custom_object_detection=True
+        robot.enable_nav_map_feed=True
+
+
+
+        current_robot_pose = robot.pose.position
         print (current_robot_pose)    
         print("Drive Vector off of charger...")
         robot.behavior.drive_off_charger()
-        current_robot_pose = robot.pose
+        
+        current_robot_pose = robot.pose.position
         print (current_robot_pose)    
-
-
+        
         robot.behavior.drive_straight(distance_mm(100), speed_mmps(100))
-        current_robot_pose = robot.pose
+        current_robot_pose = robot.pose.position
         print (current_robot_pose) 
         
         robot.behavior.turn_in_place(degrees(90))   
-        current_robot_pose = robot.pose
+        current_robot_pose = robot.pose.position
         print (current_robot_pose) 
 
        
 
         robot.behavior.drive_straight(distance_mm(100), speed_mmps(100))
-        current_robot_pose = robot.pose
+        current_robot_pose = robot.pose.position
         print (current_robot_pose)    
 
         robot.behavior.turn_in_place(degrees(90))   
-        current_robot_pose = robot.pose
+        current_robot_pose = robot.pose.position
         print (current_robot_pose) 
 
 
         robot.behavior.drive_straight(distance_mm(100), speed_mmps(100))
-        current_robot_pose = robot.pose
+        current_robot_pose = robot.pose.position
         print (current_robot_pose)    
 
         robot.behavior.turn_in_place(degrees(90))   
-        current_robot_pose = robot.pose
+        current_robot_pose = robot.pose.position
         print (current_robot_pose) 
 
 
         robot.behavior.drive_straight(distance_mm(100), speed_mmps(100))
-        current_robot_pose = robot.pose
+        current_robot_pose = robot.pose.position
         print (current_robot_pose)    
 
         robot.behavior.turn_in_place(degrees(90))   
-        current_robot_pose = robot.pose
+        current_robot_pose = robot.pose.position
         print (current_robot_pose) 
 
-
+        #latest_nav_map = robot.nav_map.latest_nav_map
+        #throws exception not to be initialized
 
         robot.behavior.drive_on_charger()
-        current_robot_pose = robot.pose
+        current_robot_pose = robot.pose.position
         print (current_robot_pose)    
 
+    
 
 if __name__ == '__main__':
     main()
